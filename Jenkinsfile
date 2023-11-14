@@ -28,7 +28,7 @@ pipeline {
                 echo 'Running tests'
                 // Define test steps here
                 sh 'ansible-playbook /home/centos/mid-project-calculator/04-test.yml -i /home/centos/mid-project-calculator/hosts.ini'
-                stash (name: 'Jenkins-Mid-Project', includes: "target/*.war")
+                stash (name: 'Jenkins-Mid-Project', includes: "/path/to/checkout/target/*.war")
             }
         }
         stage('Deploy') {
