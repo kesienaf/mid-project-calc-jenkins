@@ -13,7 +13,7 @@ pipeline {
             }
             steps {
                 echo 'Installations'
-                sh 'ansible-playbook 01-install.yml -i hosts.ini'
+                sh 'ansible-playbook /home/centos/mid-project-calculator/01-install.yml -i /home/centos/mid-project-calculator/hosts.ini'
             }
         }
         stage('Build') {
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 echo 'Building the application'
                 // Define build steps here
-                sh 'ansible-playbook 03-build.yml -i hosts.ini'
+                sh 'ansible-playbook /home/centos/mid-project-calculator/03-build.yml -i /home/centos/mid-project-calculator/hosts.ini'
             }
         }
         stage('Test') {
@@ -45,7 +45,7 @@ pipeline {
                 echo 'Deploying the application'
                 // Define deployment steps here
                 unstash 'Jenkins-Mid-Project'
-                sh 'ansible-playbook 05-deploy.yml -i hosts.ini'
+                sh 'ansible-playbook /home/centos/mid-project-calculator/05-deploy.yml -i /home/centos/mid-project-calculator/hosts.ini'
             }
         }
     }
