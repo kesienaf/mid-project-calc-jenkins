@@ -1,6 +1,12 @@
 pipeline {
     agent none
     stages {
+        stage('Checkout') {
+            steps {
+                // Checkout your source code from version control (e.g., Git)
+                checkout scm
+            }
+        }
         stage('Install') {
             agent {
                 label 'node-1'
