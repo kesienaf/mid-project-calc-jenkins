@@ -28,7 +28,11 @@ pipeline {
                 echo 'Running tests'
                 // Define test steps here
                 sh 'ansible-playbook /home/centos/mid-project-calculator/04-test.yml -i /home/centos/mid-project-calculator/hosts.ini'
-                stash (name: 'Jenkins-Mid-Project', includes: "/path/to/checkout/target/*.war")
+                script {
+                    echo 'Checking if files exist before stashing'
+                    sh 'ls -l /path/to/checkout/target'
+                }
+                stash(name: 'Jenkins-Mid-Project-Calc', includes: "/path/to/checkout/target/*.war")
             }
         }
         stage('Deploy') {
@@ -38,7 +42,7 @@ pipeline {
             steps {
                 echo 'Deploying the application'
                 // Define deployment steps here
-                unstash 'Jenkins-Mid-Project'
+                unstash 'Jenkins-Mid-Project-Calc'
                 sh 'ansible-playbook /home/centos/mid-project-calculator/05-deploy.yml -i /home/centos/mid-project-calculator/hosts.ini'
             }
         }
