@@ -1,6 +1,15 @@
 pipeline {
     agent none
     stages {
+        stage('Install') {
+            agent {
+                label 'node-1'
+            }
+            steps {
+                echo 'Installations'
+                sh 'ansible-playbook 01-install.yml -i hosts.ini'
+            }
+        }
         stage('Build') {
             agent {
                 label 'node-1'
@@ -8,7 +17,7 @@ pipeline {
             steps {
                 echo 'Building the application'
                 // Define build steps here
-                sh '/opt/maven/bin/mvn clean package'
+                sh 'ansible-playbook 03-build.yml -i hosts.ini'
             }
         }
         stage('Test') {
@@ -18,7 +27,7 @@ pipeline {
             steps {
                 echo 'Running tests'
                 // Define test steps here
-                sh 'mvn test'
+                sh 'ansible-playbook 04-test.yml -i hosts.ini'
                 stash (name: 'Jenkins-Mid-Project', includes: "target/*.war")
             }
         }
@@ -30,7 +39,7 @@ pipeline {
                 echo 'Deploying the application'
                 // Define deployment steps here
                 unstash 'Jenkins-Mid-Project'
-                sh 'ansible-playbook -i hosts.ini 03-deploy.yml'
+                sh 'ansible-playbook 05-deploy.yml -i hosts.ini'
             }
         }
     }
