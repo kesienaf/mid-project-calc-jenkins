@@ -42,7 +42,7 @@ pipeline {
                 echo 'Deploying the application'
                 // Define deployment steps here
                 unstash 'Jenkins-Mid-Project-Calc'
-                sh 'ansible-playbook /home/centos/mid-project-calculator/05-deploy.yml -i /home/centos/mid-project-calculator/hosts.ini'
+                sh 'ansible-playbook /home/centos/mid-project-calculator/07-deploy.yml -i /home/centos/mid-project-calculator/hosts.ini'
             }
         }
     }
