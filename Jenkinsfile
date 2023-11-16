@@ -32,7 +32,7 @@ pipeline {
                 script {
                     echo 'Checking if files exist before stashing'
                 }
-                stash(allowEmpty: true, name: 'Jenkins-Mid-Project-Calc', includes: "/path/to/checkout/target/*.war")
+                stash(allowEmpty: true, name: 'Jenkins-Mid-Project-Calc', includes: "/target/*.war")
             }
         }
         stage('Deploy') {
