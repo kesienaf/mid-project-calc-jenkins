@@ -7,7 +7,7 @@ pipeline {
             }
             steps {
                 echo 'Installations'
-                sh 'git pull'
+                sh 'git pull /home/centos/mid-project-calculator/'
                 sh 'ansible-playbook /home/centos/mid-project-calculator/01-install.yml -i /home/centos/mid-project-calculator/hosts.ini'
             }
         }
