@@ -31,7 +31,6 @@ pipeline {
                 sh 'ansible-playbook /home/centos/mid-project-calculator/04-test.yml -i /home/centos/mid-project-calculator/hosts.ini'
                 script {
                     echo 'Checking if files exist before stashing'
-                    sh "sudo ls /home/centos/path/to/checkout/target/"
                 }
                 stash(allowEmpty: true, name: 'Jenkins-Mid-Project-Calc', includes: "/path/to/checkout/target/*.war")
             }
