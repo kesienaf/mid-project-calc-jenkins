@@ -41,7 +41,7 @@ pipeline {
             steps {
                 echo 'Deploying the application'
                 // Define deployment steps here
-                sshagent(['node-1-main']) {
+                sshagent(['for-node-1']) {
                     sh "scp -o StrictHostKeyChecking=no centos@172.31.2.14:/path/to/checkout/target/*.war centos@172.31.8.22:/opt/tomcat/webapps/"
                     }
                 sh 'ansible-playbook /home/centos/mid-project-calculator/07-deploy.yml -i /home/centos/mid-project-calculator/hosts.ini'
