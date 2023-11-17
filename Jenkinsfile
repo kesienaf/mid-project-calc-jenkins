@@ -44,7 +44,7 @@ pipeline {
                 // Define deployment steps here
                 unstash 'Jenkins-Mid-Project-Calc'
                 sh "sudo rm -rf ~/opt/tomcat/webapp/*.war" 
-                sh "sudo mv \${JENKINS_HOME}/workspace/mid-project-calc-kess-prince@script/Jenkins-Mid-Project-Calc/*.war ~/opt/tomcat/webapps/"
+                sh "sudo mv /Jenkins-Mid-Project-Calc/*.war ~/opt/tomcat/webapps/"
                 sh 'ansible-playbook /home/centos/mid-project-calculator/07-deploy.yml -i /home/centos/mid-project-calculator/hosts.ini'
             }
         }
