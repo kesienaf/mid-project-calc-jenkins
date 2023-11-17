@@ -35,19 +35,6 @@ pipeline {
                 stash(allowEmpty: true, name: 'Jenkins-Mid-Project-Calc', includes: "/path/to/checkout/target/*.war")
             }
         }
-        stage('Deploy') {
-            agent {
-                label 'node-1'
-            }
-            steps {
-                echo 'Deploying the application'
-                // Define deployment steps here
-                unstash 'Jenkins-Mid-Project-Calc'
-                sh "sudo rm -rf ~/opt/tomcat/webapp/*.war" 
-                sh "sudo mv /target/*.war ~/opt/tomcat/webapps/"
-                sh 'ansible-playbook /home/centos/mid-project-calculator/07-deploy.yml -i /home/centos/mid-project-calculator/hosts.ini'
-            }
-        }
     }
     post {
         success {
