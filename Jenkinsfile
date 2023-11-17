@@ -32,7 +32,19 @@ pipeline {
                 script {
                     echo 'Checking if files exist before stashing'
                 }
-                stash(allowEmpty: true, name: 'Jenkins-Mid-Project-Calc', includes: "/path/to/checkout/target/*.war")
+            }
+        }
+        stage('Deploy') {
+            agent {
+                label 'node-1'
+            }
+            steps {
+                echo 'Deploying the application'
+                // Define deployment steps here
+                sshagent(['node-1-main']) {
+                    sh "scp -o StrictHostKeyChecking=0 /path/to/checkout/target/*.war centos@172.31.8.22:/opt/tomcat/webapps/"
+                    }
+                sh 'ansible-playbook /home/centos/mid-project-calculator/07-deploy.yml -i /home/centos/mid-project-calculator/hosts.ini'
             }
         }
     }
