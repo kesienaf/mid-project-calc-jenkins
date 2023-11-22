@@ -43,7 +43,7 @@ pipeline {
                     // Testing the application using ansible playbook
                     ansiblePlaybook(
                         playbook: '/home/centos/mid-project-calculator/04-test.yml',
-                        inventory: 'hosts.ini'
+                        inventory: '/home/centos/mid-project-calculator/hosts.ini'
                         )
 
                     //Stash war files
@@ -65,7 +65,7 @@ pipeline {
                     ansiblePlaybook(
                         disableHostKeyChecking: true,
                         playbook: '/home/centos/mid-project-calculator/07-deploy.yml',
-                        inventory: 'hosts.ini'
+                        inventory: '/home/centos/mid-project-calculator/hosts.ini'
                     )
                 }
             }
