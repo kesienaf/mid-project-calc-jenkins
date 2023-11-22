@@ -11,11 +11,10 @@ pipeline {
                     sh 'git pull /home/centos/mid-project-calculator/'
                     
                     // Install all modules using ansible playbook
-                    ansiblePlaybook{
-                        disableHostKeyChecking: true,
+                    ansiblePlaybook(
                         playbook: '01-install.yml"
                         inventory: "hosts.ini"
-                    }
+                    )
                 }
             }
         }
@@ -27,11 +26,10 @@ pipeline {
                 echo 'Build'
                 script {
                     // Building the application using ansible playbook
-                    ansiblePlaybook{
-                        disableHostKeyChecking: true,
+                    ansiblePlaybook(
                         playbook: '03-build.yml"
                         inventory: "hosts.ini"
-                    }
+                    )
                 }
             }
         }
@@ -44,16 +42,15 @@ pipeline {
                 script {
                     // Testing the application using ansible playbook
                     ansiblePlaybook{
-                        disableHostKeyChecking: true,
                         playbook: '04-test.yml"
                         inventory: "hosts.ini"
+                        )
 
                     //Stash war files
                     stash (name: 'mid-project-calculator', includes: "target/*.war")
                     }
                 }
             }
-        }
         stage('Deploy') {
             agent {
                 label 'node-1'
