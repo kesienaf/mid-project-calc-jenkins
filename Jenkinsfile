@@ -12,7 +12,7 @@ pipeline {
                     
                     // Install all modules using ansible playbook
                     ansiblePlaybook(
-                        playbook: '01-install.yml'
+                        playbook: '01-install.yml',
                         inventory: 'hosts.ini'
                     )
                 }
@@ -27,7 +27,7 @@ pipeline {
                 script {
                     // Building the application using ansible playbook
                     ansiblePlaybook(
-                        playbook: '03-build.yml'
+                        playbook: '03-build.yml',
                         inventory: 'hosts.ini'
                     )
                 }
@@ -42,7 +42,7 @@ pipeline {
                 script {
                     // Testing the application using ansible playbook
                     ansiblePlaybook{
-                        playbook: '04-test.yml'
+                        playbook: '04-test.yml',
                         inventory: 'hosts.ini'
                         )
 
@@ -64,7 +64,7 @@ pipeline {
                     // Deploying the application using ansible playbook
                     ansiblePlaybook(
                         disableHostKeyChecking: true,
-                        playbook: '07-deploy.yml'
+                        playbook: '07-deploy.yml',
                         inventory: 'hosts.ini'
                     )
                 }
