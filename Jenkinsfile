@@ -41,16 +41,16 @@ pipeline {
                 echo 'Test'
                 script {
                     // Testing the application using ansible playbook
-                    ansiblePlaybook{
+                    ansiblePlaybook(
                         playbook: '04-test.yml',
                         inventory: 'hosts.ini'
                         )
 
                     //Stash war files
                     stash (name: 'mid-project-calculator', includes: "target/*.war")
-                    }
                 }
             }
+        }
         stage('Deploy') {
             agent {
                 label 'node-1'
