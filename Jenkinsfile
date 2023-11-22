@@ -47,7 +47,7 @@ pipeline {
                         )
 
                     //Stash war files
-                    stash (name: 'mid-project-calculator', includes: "target/*.war")
+                    stash (name: 'mid-project-calculator', includes: "/home/centos/mid-project-calculator/target/*.war")
                 }
             }
         }
