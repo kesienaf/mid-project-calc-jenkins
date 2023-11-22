@@ -12,8 +12,8 @@ pipeline {
                     
                     // Install all modules using ansible playbook
                     ansiblePlaybook(
-                        playbook: '01-install.yml',
-                        inventory: 'hosts.ini'
+                        playbook: '/home/centos/mid-project-calculator/01-install.yml',
+                        inventory: '/home/centos/mid-project-calculator/hosts.ini'
                     )
                 }
             }
@@ -28,7 +28,7 @@ pipeline {
                     // Building the application using ansible playbook
                     ansiblePlaybook(
                         playbook: '/home/centos/mid-project-calculator/03-build.yml',
-                        inventory: 'hosts.ini'
+                        inventory: '/home/centos/mid-project-calculator/hosts.ini'
                     )
                 }
             }
