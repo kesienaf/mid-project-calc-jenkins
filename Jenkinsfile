@@ -7,8 +7,16 @@ pipeline {
             }
             steps {
                 echo 'Installations'
-                sh 'git pull /home/centos/mid-project-calculator/'
-                sh 'ansible-playbook /home/centos/mid-project-calculator/01-install.yml -i /home/centos/mid-project-calculator/hosts.ini'
+                script {
+                    sh 'git pull /home/centos/mid-project-calculator/'
+                    
+                    // Install all modules using ansible playbook
+                    ansiblePlaybook{
+                        disableHostKeyChecking: true,
+                        playbook: '01-install.yml"
+                        inventory: "hosts.ini"
+                    }
+                }
             }
         }
         stage('Build') {
@@ -16,9 +24,15 @@ pipeline {
                 label 'node-1'
             }
             steps {
-                echo 'Building the application'
-                // Define build steps here
-                sh 'ansible-playbook /home/centos/mid-project-calculator/03-build.yml -i /home/centos/mid-project-calculator/hosts.ini'
+                echo 'Build'
+                script {
+                    // Building the application using ansible playbook
+                    ansiblePlaybook{
+                        disableHostKeyChecking: true,
+                        playbook: '03-build.yml"
+                        inventory: "hosts.ini"
+                    }
+                }
             }
         }
         stage('Test') {
@@ -26,11 +40,17 @@ pipeline {
                 label 'node-1'
             }
             steps {
-                echo 'Running tests'
-                // Define test steps here
-                sh 'ansible-playbook /home/centos/mid-project-calculator/04-test.yml -i /home/centos/mid-project-calculator/hosts.ini'
+                echo 'Test'
                 script {
-                    echo 'Checking if files exist before stashing'
+                    // Testing the application using ansible playbook
+                    ansiblePlaybook{
+                        disableHostKeyChecking: true,
+                        playbook: '04-test.yml"
+                        inventory: "hosts.ini"
+
+                    //Stash war files
+                    stash (name: 'mid-project-calculator', includes: "target/*.war")
+                    }
                 }
             }
         }
@@ -40,11 +60,17 @@ pipeline {
             }
             steps {
                 echo 'Deploying the application'
-                // Define deployment steps here
-                sshagent(['node-1']) {
-                    sh "scp -o StrictHostKeyChecking=no centos@172.31.2.14:/path/to/checkout/target/*.war centos@172.31.8.22:/opt/tomcat/webapps/"
+                script {
+                    //Unstash files
+                    unstash 'mid-project-calculator'
+                    
+                    // Deploying the application using ansible playbook
+                    ansiblePlaybook{
+                        disableHostKeyChecking: true,
+                        playbook: '07-deploy.yml"
+                        inventory: "hosts.ini"
                     }
-                sh 'ansible-playbook /home/centos/mid-project-calculator/07-deploy.yml -i /home/centos/mid-project-calculator/hosts.ini'
+                }
             }
         }
     }
