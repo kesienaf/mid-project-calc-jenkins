@@ -27,7 +27,7 @@ pipeline {
                 script {
                     // Building the application using ansible playbook
                     ansiblePlaybook(
-                        playbook: '03-build.yml',
+                        playbook: '/home/centos/mid-project-calculator/03-build.yml',
                         inventory: 'hosts.ini'
                     )
                 }
