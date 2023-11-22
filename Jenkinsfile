@@ -42,7 +42,7 @@ pipeline {
                 script {
                     // Testing the application using ansible playbook
                     ansiblePlaybook(
-                        playbook: '04-test.yml',
+                        playbook: '/home/centos/mid-project-calculator/04-test.yml',
                         inventory: 'hosts.ini'
                         )
 
@@ -64,7 +64,7 @@ pipeline {
                     // Deploying the application using ansible playbook
                     ansiblePlaybook(
                         disableHostKeyChecking: true,
-                        playbook: '07-deploy.yml',
+                        playbook: '/home/centos/mid-project-calculator/07-deploy.yml',
                         inventory: 'hosts.ini'
                     )
                 }
