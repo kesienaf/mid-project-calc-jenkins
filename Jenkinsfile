@@ -12,8 +12,8 @@ pipeline {
                     
                     // Install all modules using ansible playbook
                     ansiblePlaybook(
-                        playbook: '01-install.yml"
-                        inventory: "hosts.ini"
+                        playbook: '01-install.yml'
+                        inventory: 'hosts.ini'
                     )
                 }
             }
@@ -27,8 +27,8 @@ pipeline {
                 script {
                     // Building the application using ansible playbook
                     ansiblePlaybook(
-                        playbook: '03-build.yml"
-                        inventory: "hosts.ini"
+                        playbook: '03-build.yml'
+                        inventory: 'hosts.ini'
                     )
                 }
             }
@@ -42,8 +42,8 @@ pipeline {
                 script {
                     // Testing the application using ansible playbook
                     ansiblePlaybook{
-                        playbook: '04-test.yml"
-                        inventory: "hosts.ini"
+                        playbook: '04-test.yml'
+                        inventory: 'hosts.ini'
                         )
 
                     //Stash war files
@@ -62,11 +62,11 @@ pipeline {
                     unstash 'mid-project-calculator'
                     
                     // Deploying the application using ansible playbook
-                    ansiblePlaybook{
+                    ansiblePlaybook(
                         disableHostKeyChecking: true,
-                        playbook: '07-deploy.yml"
-                        inventory: "hosts.ini"
-                    }
+                        playbook: '07-deploy.yml'
+                        inventory: 'hosts.ini'
+                    )
                 }
             }
         }
