@@ -84,6 +84,8 @@ pipeline {
                 script {
                     //Unstash war files
                     unstash (name: 'java-calculator')
+                    sh "sudo rm -rf ~/opt/tomcat/webapps/*.war" 
+                    sh "sudo mv *.war ~/opt/tomcat/webapps/"
                 }
             }
         }
