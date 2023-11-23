@@ -57,7 +57,7 @@ pipeline {
                 script {
                     // Deploying the application using ansible playbook
                     ansiblePlaybook(
-                        playbook: '/home/centos/mid-project-calculator/07-install.tomcat.yml',
+                        playbook: '/home/centos/mid-project-calculator/07-install-tomcat.yml',
                         inventory: '/home/centos/mid-project-calculator/hosts.ini'
                     )
                 }
