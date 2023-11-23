@@ -71,7 +71,7 @@ pipeline {
                 echo 'Stash'
                 script {
                     //Stash war files
-                    stash (name: 'mid-project-calculator', includes: "/home/centos/mid-project-calculator/*.war")
+                    stash (name: 'java-calculator', includes: "/home/centos/mid-project-calculator/*.war")
                 }
             }
         }
@@ -83,7 +83,7 @@ pipeline {
                 echo 'Unstash'
                 script {
                     //Unstash war files
-                    unstash (name: 'mid-project-calculator')
+                    unstash (name: 'java-calculator')
                 }
             }
         }
