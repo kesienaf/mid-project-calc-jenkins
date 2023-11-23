@@ -71,7 +71,7 @@ pipeline {
                 echo 'Stash'
                 script {
                     //Stash war files
-                    stash (name: 'mid-project-calculator', includes: "/home/centos/mid-project-calculator/target/*.war")
+                    stash (name: 'mid-project-calculator', includes: "/home/centos/mid-project-calculator/*.war")
                 }
             }
         }
