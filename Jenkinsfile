@@ -45,9 +45,45 @@ pipeline {
                         playbook: '/home/centos/mid-project-calculator/04-test.yml',
                         inventory: '/home/centos/mid-project-calculator/hosts.ini'
                         )
-
+                }
+            }
+        }
+        stage('Install and Start Tomcat') {
+            agent {
+                label 'node-1'
+            }
+            steps {
+                echo 'Install and Start Tomcat'
+                script {
+                    // Deploying the application using ansible playbook
+                    ansiblePlaybook(
+                        playbook: '/home/centos/mid-project-calculator/07-install.tomcat.yml',
+                        inventory: '/home/centos/mid-project-calculator/hosts.ini'
+                    )
+                }
+            }
+        }
+        stage('Stash Files') {
+            agent {
+                label 'node-1'
+            }
+            steps {
+                echo 'Stash'
+                script {
                     //Stash war files
                     stash (name: 'mid-project-calculator', includes: "/home/centos/mid-project-calculator/target/*.war")
+                }
+            }
+        }
+        stage('Unstash Files') {
+            agent {
+                label 'node-1'
+            }
+            steps {
+                echo 'Unstash'
+                script {
+                    //Unstash war files
+                    unstash (name: 'mid-project-calculator')
                 }
             }
         }
@@ -58,12 +94,9 @@ pipeline {
             steps {
                 echo 'Deploying the application'
                 script {
-                    //Unstash files
-                    unstash 'mid-project-calculator'
-                    
                     // Deploying the application using ansible playbook
                     ansiblePlaybook(
-                        playbook: '/home/centos/mid-project-calculator/07-deploy.yml',
+                        playbook: '/home/centos/mid-project-calculator/08-deploy-application.yml',
                         inventory: '/home/centos/mid-project-calculator/hosts.ini'
                     )
                 }
