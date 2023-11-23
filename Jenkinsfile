@@ -63,7 +63,6 @@ pipeline {
                     
                     // Deploying the application using ansible playbook
                     ansiblePlaybook(
-                        disableHostKeyChecking: true,
                         playbook: '/home/centos/mid-project-calculator/07-deploy.yml',
                         inventory: '/home/centos/mid-project-calculator/hosts.ini'
                     )
