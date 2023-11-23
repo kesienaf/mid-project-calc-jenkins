@@ -63,29 +63,18 @@ pipeline {
                 }
             }
         }
-        stage('Stash Files') {
+        stage('Copy and Paste War Files') {
             agent {
                 label 'node-1'
             }
             steps {
-                echo 'Stash'
+                echo 'Copy and Paste'
                 script {
-                    //Stash war files
-                    stash (name: 'java-calculator', includes: '*.war')
-                }
-            }
-        }
-        stage('Unstash Files') {
-            agent {
-                label 'node-1'
-            }
-            steps {
-                echo 'Unstash'
-                script {
-                    //Unstash war files
-                    unstash (name: 'java-calculator')
-                    sh "sudo rm -rf ~/opt/tomcat/webapps/*.war" 
-                    sh "sudo mv *.war ~/opt/tomcat/webapps/"
+                    // Deploying the application using ansible playbook
+                    ansiblePlaybook(
+                        playbook: '/home/centos/mid-project-calculator/05-copy-paste-files.yml',
+                        inventory: '/home/centos/mid-project-calculator/hosts.ini'
+                    )
                 }
             }
         }
