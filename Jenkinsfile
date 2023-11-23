@@ -71,7 +71,7 @@ pipeline {
                 echo 'Stash'
                 script {
                     //Stash war files
-                    stash (name: 'java-calculator', includes: "mid-calc-project/*.war")
+                    stash (name: 'java-calculator', includes: '*.war')
                 }
             }
         }
