@@ -63,16 +63,16 @@ pipeline {
                 }
             }
         }
-        stage('Fetch War Files') {
+        stage('Remove War Files from Ansible Master') {
             agent {
                 label 'node-1'
             }
             steps {
-                echo 'Fetch'
+                echo 'Remove War Files'
                 script {
                     // Deploying the application using ansible playbook
                     ansiblePlaybook(
-                        playbook: '/home/centos/mid-project-calculator/06-fetch.yml',
+                        playbook: '/home/centos/mid-project-calculator/06-remove-war-file.yml',
                         inventory: '/home/centos/mid-project-calculator/hosts.ini'
                     )
                 }
