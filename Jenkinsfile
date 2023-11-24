@@ -57,7 +57,22 @@ pipeline {
                 script {
                     // Deploying the application using ansible playbook
                     ansiblePlaybook(
-                        playbook: '/home/centos/mid-project-calculator/07-install-tomcat.yml',
+                        playbook: '/home/centos/mid-project-calculator/05-install-tomcat.yml',
+                        inventory: '/home/centos/mid-project-calculator/hosts.ini'
+                    )
+                }
+            }
+        }
+        stage('Fetch War Files') {
+            agent {
+                label 'node-1'
+            }
+            steps {
+                echo 'Fetch'
+                script {
+                    // Deploying the application using ansible playbook
+                    ansiblePlaybook(
+                        playbook: '/home/centos/mid-project-calculator/06-fetch.yml',
                         inventory: '/home/centos/mid-project-calculator/hosts.ini'
                     )
                 }
@@ -72,7 +87,7 @@ pipeline {
                 script {
                     // Deploying the application using ansible playbook
                     ansiblePlaybook(
-                        playbook: '/home/centos/mid-project-calculator/05-copy-paste-files.yml',
+                        playbook: '/home/centos/mid-project-calculator/07-copy-paste.yml',
                         inventory: '/home/centos/mid-project-calculator/hosts.ini'
                     )
                 }
