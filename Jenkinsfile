@@ -27,7 +27,7 @@ pipeline {
                 script {
                     // Building the application using ansible playbook
                     ansiblePlaybook(
-                        playbook: '/home/centos/mid-project-calculator/03-build.yml',
+                        playbook: '/home/centos/mid-project-calculator/02-build.yml',
                         inventory: '/home/centos/mid-project-calculator/hosts.ini'
                     )
                 }
@@ -42,7 +42,7 @@ pipeline {
                 script {
                     // Testing the application using ansible playbook
                     ansiblePlaybook(
-                        playbook: '/home/centos/mid-project-calculator/04-test.yml',
+                        playbook: '/home/centos/mid-project-calculator/03-test.yml',
                         inventory: '/home/centos/mid-project-calculator/hosts.ini'
                         )
                 }
@@ -55,9 +55,9 @@ pipeline {
             steps {
                 echo 'Install and Start Tomcat'
                 script {
-                    // Deploying the application using ansible playbook
+                    // Installing Tomcat using ansible playbook
                     ansiblePlaybook(
-                        playbook: '/home/centos/mid-project-calculator/05-install-tomcat.yml',
+                        playbook: '/home/centos/mid-project-calculator/04-install-tomcat.yml',
                         inventory: '/home/centos/mid-project-calculator/hosts.ini'
                     )
                 }
@@ -70,24 +70,39 @@ pipeline {
             steps {
                 echo 'Remove War Files'
                 script {
-                    // Deploying the application using ansible playbook
+                    // Remove Previous WAR files from the Ansible Master using ansible playbook
                     ansiblePlaybook(
-                        playbook: '/home/centos/mid-project-calculator/06-remove-war-file.yml',
+                        playbook: '/home/centos/mid-project-calculator/05-remove-war-file.yml',
                         inventory: '/home/centos/mid-project-calculator/hosts.ini'
                     )
                 }
             }
         }
-        stage('Copy and Paste War Files') {
+        stage('Copy War Files') {
             agent {
                 label 'node-1'
             }
             steps {
-                echo 'Copy and Paste'
+                echo 'Copy'
+                script {
+                    // DCopy new WAR Files using ansible playbook
+                    ansiblePlaybook(
+                        playbook: '/home/centos/mid-project-calculator/06-copy-war-files.yml',
+                        inventory: '/home/centos/mid-project-calculator/hosts.ini'
+                    )
+                }
+            }
+        }
+        stage('Paste War Files') {
+            agent {
+                label 'node-1'
+            }
+            steps {
+                echo 'Paste'
                 script {
                     // Deploying the application using ansible playbook
                     ansiblePlaybook(
-                        playbook: '/home/centos/mid-project-calculator/07-copy-paste.yml',
+                        playbook: '/home/centos/mid-project-calculator/07-paste-war-files.yml',
                         inventory: '/home/centos/mid-project-calculator/hosts.ini'
                     )
                 }
